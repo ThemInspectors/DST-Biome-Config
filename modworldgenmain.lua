@@ -18,6 +18,7 @@ local Layouts = GLOBAL.require("map/layouts").Layouts
 local StaticLayout = GLOBAL.require("map/static_layout")
 
 Layouts["ThisMeansWarStartDST"] = StaticLayout.Get("map/static_layouts/thismeanswardst_start")
+Layouts["BargainStartDST"] = StaticLayout.Get("map/static_layouts/bargainstartdst")
 
 AddTaskSetPreInitAny(function(tasksetdata)
     GLOBAL.dumptable(tasksetdata)
@@ -85,7 +86,119 @@ AddLevel(LEVELTYPE.SURVIVAL, {
     },
 })
 
+AddLevel(LEVELTYPE.SURVIVAL, {
+    id="TWOWORLDS",
+    name="Two Worlds",
+    desc= "Don't Starve Adventure mode: Two Worlds",
+    location = "forest",
+    version = 3,
+    overrides={
+        task_set = "twolands",
+        start_location = "bargainstart",
+        day = "longday",
+        season_start = "autumn",
+        season = "onlyautumn",
+        roads = "never",
+        bearger = "never",
+        deerclops = "never",
+    },
+    ordered_story_setpieces = {
+        "Sculptures_1",
+        "Maxwell5",
+    },
+    numrandom_set_pieces = 4,
+    override_triggers = {
+			["START"] = {	-- Quick (localised) fix for area-aware bug #677
+          weather = "never",
+          day = "longday",
+        },
+			["Land of Plenty"] = {
+          weather = "never",
+          day = "longday",
+        },
+			["The Side"] = {
+			    weather = "often",
+          day = "longdusk",
+          deerclops = "always",
+          bearger = "always",
+        },
+		},
+    random_set_pieces = {
+        "Sculptures_2",
+        "Sculptures_3",
+        "Sculptures_4",
+        "Sculptures_5",
+        "Chessy_1",
+        "Chessy_2",
+        "Chessy_3",
+        "Chessy_4",
+        "Chessy_5",
+        "Chessy_6",
+        --"ChessSpot1",
+        --"ChessSpot2",
+        --"ChessSpot3",
+        "Maxwell1",
+        "Maxwell2",
+        "Maxwell3",
+        "Maxwell4",
+        "Maxwell6",
+        "Maxwell7",
+        "Warzone_1",
+        "Warzone_2",
+        "Warzone_3",
+    },
+})
 
+AddTaskSet("twolands", {
+    name = "Two Lands",
+    location = "forest",
+    tasks = {
+        "Land of Plenty",
+        "The Side",
+    },
+    numoptionaltasks = 0,
+    optionaltasks = {},
+    valid_start_tasks = {
+        "Land of Plenty"
+    },
+    set_pieces = {
+        ["MaxPigShrine"] = {tasks={"Land of Plenty"}},
+        ["MaxMermShrine"] = {tasks={"The Side"}},
+        ["ResurrectionStone"] = {count=2,tasks={"The Side", "Land of Plenty"}},
+        ["MooseNest"] = { count = 3, tasks={"The Side"} },
+  			["CaveEntrance"] = { count = 2, tasks={"The Side"} },
+    }
+})
+
+AddStartLocation("bargainstart", {
+    name = "BargainStart",
+    location = "forest",
+    start_setpeice = "BargainStartDST",
+    start_node = {"Clearing"}
+})
+
+AddTask("The Side", {
+		locks=LOCKS.MEAT,
+		keys_given=KEYS.NONE,
+		entrance_room = "SanityWormholeBlocker",
+		room_choices={
+			["Graveyard"] = function() return math.random(2) end,
+			["SpiderCity"] = function() return math.random(3) end,
+			["Waspnests"] = 1,
+			["WalrusHut_Rocky"] = function() return math.random(1) end,
+			["Pondopolis"] = function() return math.random(2) end,
+			["Tentacleland"] = function() return math.random(3) end,
+			["Moundfield"] = function() return math.random(2) end,
+			["MermTown"] = function() return 1 + math.random(3) end,
+			["Trapfield"] = function() return 1 + math.random(2) end,
+			["ChessArea"] = function() return math.random(2) end,
+			["ChessMarsh"] = 1,
+			["SpiderMarsh"] = function() return 2+math.random(2) end,
+		},
+		room_bg=GROUND.MARSH,
+		background_room="BGMarsh",
+		colour={r=.05,g=.5,b=.05,a=1}
+	})
 --[====
 --*******************************************
 --** ANYTHING PAST THIS POINT IS NOT DONE! **
@@ -122,7 +235,7 @@ AddRoom("Blandlands", {
 })
 --]===]
 
---[===
+--[===[
 -- Ported Adventure Mode:
 
 AddTaskSet("islandhopadventure", {
@@ -190,4 +303,4 @@ AddLevel(LEVELTYPE.SURVIVAL, {
         },
     },
 })
---]===
+--]===]
