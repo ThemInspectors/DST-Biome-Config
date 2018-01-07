@@ -1,4 +1,4 @@
-name = ""
+name = "Extra Worlgen Config"
 description = ""
 
 author = "ThemInspectors"
@@ -24,5 +24,19 @@ configuration_options = {
             {description = "more", data = 1.5, hover = ""},
             {description = "lots", data = 2, hover = ""},
         },
+        default = 1,
     },
+    {
+      name = "islandness",
+      label = "Island frequency",
+      hover = "How frequently will islands spawn?",
+      options = {
+        {description = "never", data = false, hover = "Islands will never spawn!"},
+        {description = "rare", data = "rare", hover = "Islands will sometimes spawn"},
+        {description = "default", data = "default", hover = ""},
+        {description = "often", data = "often", hover = ""},
+        {description = "lots", data = "always", hover = "Island will always spawn"},
+      },
+      default = "default",
+    }
 }

@@ -20,10 +20,6 @@ local StaticLayout = GLOBAL.require("map/static_layout")
 Layouts["ThisMeansWarStartDST"] = StaticLayout.Get("map/static_layouts/thismeanswardst_start")
 Layouts["BargainStartDST"] = StaticLayout.Get("map/static_layouts/bargainstartdst")
 
-AddTaskSetPreInitAny(function(tasksetdata)
-    GLOBAL.dumptable(tasksetdata)
-end)
-
 AddLevel(LEVELTYPE.SURVIVAL, {
     id="C_PLUS_PLUS",
     name="Classic Plus",
@@ -101,6 +97,8 @@ AddLevel(LEVELTYPE.SURVIVAL, {
         roads = "never",
         bearger = "never",
         deerclops = "never",
+        keep_disconnected_tiles = true,
+        islands = "always"
     },
     ordered_story_setpieces = {
         "Sculptures_1",
@@ -154,7 +152,7 @@ AddTaskSet("twolands", {
     location = "forest",
     tasks = {
         "Land of Plenty",
-        "The Side",
+        "The other side",
     },
     numoptionaltasks = 0,
     optionaltasks = {},
@@ -163,10 +161,10 @@ AddTaskSet("twolands", {
     },
     set_pieces = {
         ["MaxPigShrine"] = {tasks={"Land of Plenty"}},
-        ["MaxMermShrine"] = {tasks={"The Side"}},
-        ["ResurrectionStone"] = {count=2,tasks={"The Side", "Land of Plenty"}},
-        ["MooseNest"] = { count = 3, tasks={"The Side"} },
-  			["CaveEntrance"] = { count = 2, tasks={"The Side"} },
+        ["MaxMermShrine"] = {tasks={"The other side"}},
+        ["ResurrectionStone"] = {count=2,tasks={"The other side", "Land of Plenty"}},
+        ["MooseNest"] = { count = 3, tasks={"The other side"} },
+  			["CaveEntrance"] = { count = 2, tasks={"The other side"} },
     }
 })
 
@@ -176,7 +174,25 @@ AddStartLocation("bargainstart", {
     start_setpeice = "BargainStartDST",
     start_node = {"Clearing"}
 })
+print("~~~TEST~~~")
+if GetModConfigData("islandness") then
+  print("World Biome Config!#S@T")
+ local function addIslands(level)
+   print("World Biome Config!#S@L")
+   if level.location ~= "forest" then return end
+   print("World Biome Config!#S@D")
+   table.insert(level.overrides, {keep_disconnected_tiles = true})
+   table.insert(level.overrides, {islands = GetModConfigData("islandness")})
+   print("World Biome Config!")
+   print(level.overrides.islands)
+   print(level.overrides.keep_disconnected_tiles)
+   print(level.tasks[1])
+   print(level.overrides.berrybush)
+ end
+ AddLevelPreInitAny(addIslands)
+end
 
+--[===[
 AddTask("The Side", {
 		locks=LOCKS.MEAT,
 		keys_given=KEYS.NONE,
@@ -199,6 +215,7 @@ AddTask("The Side", {
 		background_room="BGMarsh",
 		colour={r=.05,g=.5,b=.05,a=1}
 	})
+--]===]
 --[====
 --*******************************************
 --** ANYTHING PAST THIS POINT IS NOT DONE! **
