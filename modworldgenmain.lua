@@ -30,7 +30,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
         task_set = "classic",
         start_location = "plus",
         boons = "often",
-        islands = "always",
+--        islands = "always",
         spiders = "often",
         berrybush = "rare",
         carrot = "rare",
@@ -83,6 +83,48 @@ AddLevel(LEVELTYPE.SURVIVAL, {
 })
 
 AddLevel(LEVELTYPE.SURVIVAL, {
+    id="INSPECTORMODWORLDGENLEVEL",
+    name="Gen+",
+    desc= "A preset required for having some options work.",
+    location = "forest",
+    version = 3,
+    overrides={
+      keep_disconnected_tiles = GetModConfigData("islandness"),
+      islands = GetModConfigData("islandness") or "never", --Using "or never" to let it not crash when islandness is set to false.
+      roads = GetModConfigData("disableRoads"),
+    },
+    ordered_story_setpieces = {
+        "Sculptures_1",
+        "Maxwell5",
+    },
+    numrandom_set_pieces = 4,
+    random_set_pieces = {
+        "Sculptures_2",
+        "Sculptures_3",
+        "Sculptures_4",
+        "Sculptures_5",
+        "Chessy_1",
+        "Chessy_2",
+        "Chessy_3",
+        "Chessy_4",
+        "Chessy_5",
+        "Chessy_6",
+        --"ChessSpot1",
+        --"ChessSpot2",
+        --"ChessSpot3",
+        "Maxwell1",
+        "Maxwell2",
+        "Maxwell3",
+        "Maxwell4",
+        "Maxwell6",
+        "Maxwell7",
+        "Warzone_1",
+        "Warzone_2",
+        "Warzone_3",
+    },
+})
+
+AddLevel(LEVELTYPE.SURVIVAL, {
     id="TWOWORLDS",
     name="Two Worlds",
     desc= "Don't Starve Adventure mode: Two Worlds",
@@ -97,14 +139,16 @@ AddLevel(LEVELTYPE.SURVIVAL, {
         roads = "never",
         bearger = "never",
         deerclops = "never",
-        keep_disconnected_tiles = true,
-        islands = "always"
+        keep_disconnected_tiles = true, --This allows islands to persist
+        islands = "always" --Setting islands to always will try to seperate every task. Requires keep_disconnected_tiles
     },
     ordered_story_setpieces = {
         "Sculptures_1",
         "Maxwell5",
     },
     numrandom_set_pieces = 4,
+    --These don't work.
+    --[==[
     override_triggers = {
 			["START"] = {	-- Quick (localised) fix for area-aware bug #677
           weather = "never",
@@ -121,6 +165,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
           bearger = "always",
         },
 		},
+    --]==]
     random_set_pieces = {
         "Sculptures_2",
         "Sculptures_3",
@@ -174,24 +219,32 @@ AddStartLocation("bargainstart", {
     start_setpeice = "BargainStartDST",
     start_node = {"Clearing"}
 })
-print("~~~TEST~~~")
-if GetModConfigData("islandness") then
-  print("World Biome Config!#S@T")
+--These functions aren't working :/
+--[=====[
+if GetModConfigData("islandness") then -- This function inserts island-allowing overrides into the level.
+print("Mod Gen Config: Attempting to allow islands. Islandness = "..GetModConfigData("islandness"))
  local function addIslands(level)
-   print("World Biome Config!#S@L")
-   if level.location ~= "forest" then return end
-   print("World Biome Config!#S@D")
-   table.insert(level.overrides, {keep_disconnected_tiles = true})
-   table.insert(level.overrides, {islands = GetModConfigData("islandness")})
-   print("World Biome Config!")
-   print(level.overrides.islands)
-   print(level.overrides.keep_disconnected_tiles)
-   print(level.tasks[1])
-   print(level.overrides.berrybush)
+   if level.location ~= "forest" then return print("Mod Gen Config: location not in the forest, Aborting!") end --Early return for caves
+   --if level.overrides.islands then return print("Mod Gen Config: islandness is already defined! Aborting!") end -- Early return if an other mod is handling this
+--   print("World Biome Config!#S@D")
+    level.overrides.keep_disconnected_tiles = true
+    level.overrides.islands = GetModConfigData("islandness")
+--    print("Mod Gen Config: Islandness successfully added with value of: "..level.overrides.islands)
  end
  AddLevelPreInitAny(addIslands)
 end
 
+if GetModConfigData("disableRoads") then
+  print("Mod Gen Config: Attempting to disable roads.")
+  local function removeRoads(level)
+    if level.location ~= forest then return print("Mod Gen Config: location not in the forest, Aborting!") end
+    --if level.overrides.roads then return print("Mod Gen Config: roads are already defined! Aborting!") end
+    level.overrides.roads = "never"
+    --if level.overrides.roads then return print("Mod Gen Config: Roads successfully removed!") else return print("Mod Gen Config: Failure removing roads!") end
+  end
+  AddLevelPreInitAny(removeRoads)
+end
+--]=====]
 --[===[
 AddTask("The Side", {
 		locks=LOCKS.MEAT,

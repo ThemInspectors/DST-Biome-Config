@@ -31,12 +31,22 @@ configuration_options = {
       label = "Island frequency",
       hover = "How frequently will islands spawn?",
       options = {
-        {description = "never", data = false, hover = "Islands will never spawn!"},
-        {description = "rare", data = "rare", hover = "Islands will sometimes spawn"},
+        {description = "never", data = false, hover = ""}, --I'm not sure what options do in regards to islands, I'll test this later.
+        {description = "rare", data = "rare", hover = ""},
         {description = "default", data = "default", hover = ""},
         {description = "often", data = "often", hover = ""},
-        {description = "lots", data = "always", hover = "Island will always spawn"},
+        {description = "always", data = "always", hover = ""},
       },
-      default = "default",
-    }
+      default = false,
+    },
+    {
+      name = "disableRoads",
+      label = "Disable Roads?",
+      hover = "Stop roads from spawning? Will abort if another mod is handling it.",
+      options = {
+        {description = "Enabled", data = nil, hover = "Roads should spawn."},
+        {description = "Disabled", data = "never", hover = "Roads should not spawn."},
+      },
+      default = nil,
+    },
 }
