@@ -42,11 +42,11 @@ configuration_options = {
     {
       name = "disableRoads",
       label = "Disable Roads?",
-      hover = "Stop roads from spawning? Will abort if another mod is handling it.",
+      hover = "Stop roads from spawning?",
       options = {
-        {description = "Enabled", data = nil, hover = "Roads should spawn."},
+        {description = "Enabled", data = false, hover = "Roads should spawn."},
         {description = "Disabled", data = "never", hover = "Roads should not spawn."},
       },
-      default = nil,
+      default = false,
     },
 }

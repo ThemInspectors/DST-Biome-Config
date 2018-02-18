@@ -20,6 +20,8 @@ local StaticLayout = GLOBAL.require("map/static_layout")
 Layouts["ThisMeansWarStartDST"] = StaticLayout.Get("map/static_layouts/thismeanswardst_start")
 Layouts["BargainStartDST"] = StaticLayout.Get("map/static_layouts/bargainstartdst")
 
+SIZE_VARIATION = 2
+
 AddLevel(LEVELTYPE.SURVIVAL, {
     id="C_PLUS_PLUS",
     name="Classic Plus",
@@ -30,7 +32,6 @@ AddLevel(LEVELTYPE.SURVIVAL, {
         task_set = "classic",
         start_location = "plus",
         boons = "often",
---        islands = "always",
         spiders = "often",
         berrybush = "rare",
         carrot = "rare",
@@ -91,7 +92,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
     overrides={
       keep_disconnected_tiles = GetModConfigData("islandness"),
       islands = GetModConfigData("islandness") or "never", --Using "or never" to let it not crash when islandness is set to false.
-      roads = GetModConfigData("disableRoads"),
+      roads = GetModConfigData("disableRoads") or nil,
     },
     ordered_story_setpieces = {
         "Sculptures_1",
@@ -213,12 +214,309 @@ AddTaskSet("twolands", {
     }
 })
 
+AddTaskSet("creepyforest", {
+    name = "Forest-Only",
+    location = "forest",
+    tasks = {
+      "Forest hunters",
+      "For a nice walk",
+      "Speak to the king classic",
+      "TMG Merm-Blocked Pigs",
+      "Beehive yourself",
+      "TMG The dry Forest",
+    },
+    numoptionaltasks = 0,
+    optionaltasks = {},
+    valid_start_tasks = {
+      "TMG The dry Forest",
+    },
+    set_pieces = {
+        ["DeciduousPond"] = {tasks={"Forest hunters", "TMG Merm-Blocked Pigs", "Speak to the king classic", "For a nice walk"}},
+        ["ResurrectionStone"] = {count=2,tasks={"Forest hunters", "TMG Merm-Blocked Pigs", "Speak to the king classic", "For a nice walk", "TMG the dry desert", "Beehive yourself"}},
+        ["MooseNest"] = { count = 4, tasks={"Forest hunters", "TMG Merm-Blocked Pigs", "Speak to the king classic", "For a nice walk", "TMG the dry desert"} },
+        ["CaveEntrance"] = { count = 5, tasks={"Forest hunters", "TMG Merm-Blocked Pigs", "Speak to the king classic", "For a nice walk", "TMG the dry desert", "Beehive yourself"} },
+    }
+})
+
 AddStartLocation("bargainstart", {
     name = "BargainStart",
     location = "forest",
     start_setpeice = "BargainStartDST",
     start_node = {"Clearing"}
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[======[
+******************************
+*       Forest-Only          *
+*      Tasks & Rooms         *
+******************************
+--]======]
+AddTask("TMG Merm-Blocked Pigs", {
+  locks={LOCKS.PIGGIFTS,LOCKS.TIER3,LOCKS.ADVANCED_COMBAT},
+  keys_given={KEYS.PIGS,KEYS.MEAT,KEYS.GRASS,KEYS.WOOD,KEYS.TIER2},
+  entrance_room="Mermfield", -- This should be interesting
+  room_choices={
+    ["PigVillage"] = 1,
+    ["Wormhole"] = 1,
+    ["Forest"] = function() return 1 + math.random(SIZE_VARIATION) end,
+    ["Marsh"] = function() return math.random(SIZE_VARIATION) end,
+    ["DeepForest"] = function() return math.random(SIZE_VARIATION) end,
+    ["Clearing"] = 1,
+  },
+  room_bg=GROUND.FOREST,
+  background_room="BGForest",
+  colour={r=1,g=0,b=0,a=1}
+})
+
+AddTask("Beehive yourself", {
+  locks={LOCKS.BEEHIVE,LOCKS.TIER1},
+  keys_given={KEYS.HONEY,KEYS.TIER2},
+  entrance_room_chance=0.8,
+  entrance_room=blockersets.all_bees,
+  room_choices={
+    ["ForestBeeClearing"] = 1,
+    ["Wormhole"] = 1,
+    ["BeeQueenBee"] = 1,
+    ["Forest"] = 2,
+    ["FlowerPatch"] = 1,
+  },
+  room_bg=GROUND.GRASS,
+  background_room="BGForest",
+  colour={r=0,g=1,b=0.3,a=1},
+})
+
+AddTask("TMG The dry Forest", {
+  locks=LOCKS.NONE,
+  keys_given=KEYS.NONE,
+  room_choices={
+    ["Forest"] = function() return math.random(SIZE_VARIATION) end,
+    ["Mod_Wormhole_Burnt"] = 1,
+    ["Mod_BurntForestStart"] = 1,
+    ["Mod_BurntForest"] = function() return math.random(SIZE_VARIATION) end,
+    ["Mod_BurntClearing"] = function() return math.random(SIZE_VARIATION) end,
+    ["DryAntlion"] = 1,
+    ["IdleOasis"] = 1,
+    ["DragonflyArena"] = 1,
+    ["TMG Rocky Forest"] = 1,
+  },
+  room_bg=GROUND.GRASS,
+  background_room="Mod_BurntClearing",
+  colour={r=1,g=1,b=0.5,a=1}
+})
+
+AddRoom("ForestBeeClearing", {
+    colour={r=.8,g=1,b=.8,a=.50},
+    value = GROUND.FOREST,
+    contents =  {
+        countprefabs= {
+            fireflies= 1,
+            flower=6,
+            beehive=1,
+        },
+        distributepercent = 0.4,
+        distributeprefabs= {
+          evergreen = 0.15,
+          grass = .1,
+          sapling=.2,
+          twiggytree = 0.2,
+          ground_twigs = 0.06,
+        }
+    }
+})
+
+AddRoom("TMG Rocky Forest", {
+    colour={r=.55,g=.75,b=.75,a=.50},
+    value = GROUND.FOREST,
+    tags = {"ExitPiece", "Chester_Eyebone"},
+        contents =  {
+            distributepercent = .5,
+            distributeprefabs= {
+                rock1 = 2,
+                rock2 = 2,
+                rock_ice = .75,
+                rocks = 1,
+                flint = 1,
+                blue_mushroom = .002,
+                green_mushroom = .002,
+                red_mushroom = .002,
+                grassgekko = 0.3,
+                evergreen = 4,
+                grass = .1,
+                sapling=.2,
+                twiggytree = 0.2,
+                ground_twigs = 0.06,
+            },
+            prefabdata={
+                evergreen = {burnt={true}},
+                twiggytree= {burnt={true}},
+            }
+        },
+})
+
+AddRoom("DryAntlion", {
+    colour={r=0.3,g=0.2,b=0.1,a=0.3},
+    value = GROUND.DIRT_NOISE,
+    tags = {"RoadPoison", "sandstorm"},
+    contents =  {
+          countstaticlayouts={["AntlionSpawningGround"]=1}, -- using a static layout because this can force it to be in the center of the room
+          distributepercent = 0.2,
+          distributeprefabs =
+          {
+            marsh_bush = 0.66,
+            marsh_tree= 0.66,
+            oasis_cactus = 0.1,
+            houndbone = .5,
+            tumbleweedspawner = .05,
+            cactus = 0.2,
+          },
+          prefabdata={
+            marsh_tree = {burnt={true}},
+          }
+    }
+})
+
+AddRoom("IdleOasis", {
+  colour={r=0.3,g=0.2,b=0.1,a=0.3},
+  value = GROUND.DIRT_NOISE,
+  tags = {"RoadPoison", "sandstorm"},
+  contents =  {
+    countstaticlayouts={["Oasis"]=1},
+    countprefabs= {
+        lightninggoat = function () return 2 + math.random(4) end,
+    },
+    distributepercent = 0.2,
+    distributeprefabs =
+    {
+      cactus = 0.2,
+      marsh_tree = 0.75,
+      tumbleweedspawner = .05,
+      marsh_bush = .8,
+      oasis_cactus = 0.2,
+    },
+    prefabdata={
+      marsh_tree = {burnt={true}},
+    }
+  }
+})
+
+AddRoom("Mod_BurntClearing", {
+    colour={r=.8,g=0.5,b=.7,a=.50},
+    value = GROUND.FOREST,
+    tags = {"ExitPiece", "Chester_Eyebone"},
+    contents =  {
+      distributepercent = .1,
+      distributeprefabs={
+					                    evergreen = 0.15,
+					                    grass = .1,
+					                    sapling=.2,
+										twiggytree = 0.2,
+										ground_twigs = 0.06,
+					                },
+									prefabdata={
+										evergreen = {burnt={true}},
+                    twiggytree= {burnt={true}},
+									}
+    }
+})
+
+
+AddRoom("Mod_BurntForestStart", {
+					colour={r=.010,g=.010,b=.010,a=.50},
+					value = GROUND.FOREST,
+					contents =  {
+									countprefabs= {
+										firepit=1,
+									},
+									distributepercent = 0.6,
+									distributeprefabs= {
+										evergreen = 3,
+										charcoal = 0.2,
+									},
+									prefabdata={
+										evergreen = {burnt={true}},
+									}
+								}
+					})
+
+AddRoom("Mod_Wormhole_Burnt", {
+  colour={r=1,g=0,b=0,a=0.3},
+  value = GROUND.FOREST,
+  contents =  {
+    countprefabs = {
+      wormhole_MARKER = 1,
+    },
+    distributepercent=0.3,
+    distributeprefabs= {
+      grass = 0.5,
+      sapling = 0.5,
+      twiggytree = 0.2,
+      rocks = 3,
+      evergreen = 7,
+    },
+    prefabdata={
+      evergreen = {burnt={true}},
+      twiggytree = {burnt={true}},
+    }
+  }
+})
+
+AddRoom("Mod_BurntForest", {
+					colour={r=.090,g=.10,b=.010,a=.50},
+					value = GROUND.FOREST,
+					tags = {"ExitPiece", "Chester_Eyebone"},
+					contents =  {
+									distributepercent = 0.4,
+									distributeprefabs= {
+										evergreen = 3,
+									},
+									prefabdata={
+										evergreen = {burnt={true}},
+									}
+    }
+})
+
+AddRoom("Mod_BGGrassBurnt", {
+					colour={r=.5,g=.8,b=.5,a=.50},
+					value = GROUND.GRASS,
+					tags = {"ExitPiece", "Chester_Eyebone"},
+					contents =  {
+					                distributepercent = .275,
+					                distributeprefabs=
+					                {
+					                	rock1=0.01,
+										rock2=0.01,
+										spiderden=0.001,
+										beehive=0.003,
+										flower=0.112,
+										grass=0.2,
+										smallmammal = {weight = 0.02, prefabs = {"rabbithole", "molehill"}},
+										flint=0.05,
+										sapling=0.2,
+										twiggytree = 0.2,
+										ground_twigs = 0.08,
+										evergreen=0.3,
+					                },
+									prefabdata={
+										evergreen = {burnt={true}},
+									}
+					            }
+					})
 --These functions aren't working :/
 --[=====[
 if GetModConfigData("islandness") then -- This function inserts island-allowing overrides into the level.
@@ -245,31 +543,7 @@ if GetModConfigData("disableRoads") then
   AddLevelPreInitAny(removeRoads)
 end
 --]=====]
---[===[
-AddTask("The Side", {
-		locks=LOCKS.MEAT,
-		keys_given=KEYS.NONE,
-		entrance_room = "SanityWormholeBlocker",
-		room_choices={
-			["Graveyard"] = function() return math.random(2) end,
-			["SpiderCity"] = function() return math.random(3) end,
-			["Waspnests"] = 1,
-			["WalrusHut_Rocky"] = function() return math.random(1) end,
-			["Pondopolis"] = function() return math.random(2) end,
-			["Tentacleland"] = function() return math.random(3) end,
-			["Moundfield"] = function() return math.random(2) end,
-			["MermTown"] = function() return 1 + math.random(3) end,
-			["Trapfield"] = function() return 1 + math.random(2) end,
-			["ChessArea"] = function() return math.random(2) end,
-			["ChessMarsh"] = 1,
-			["SpiderMarsh"] = function() return 2+math.random(2) end,
-		},
-		room_bg=GROUND.MARSH,
-		background_room="BGMarsh",
-		colour={r=.05,g=.5,b=.05,a=1}
-	})
---]===]
---[====
+
 --*******************************************
 --** ANYTHING PAST THIS POINT IS NOT DONE! **
 --*******************************************
