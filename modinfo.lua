@@ -1,8 +1,8 @@
-name = "Extra Worlgen Config"
+name = "Extra Worldgen Config"
 description = "Extra Worlgen Config\nAdds more presets and worldgen configs\nIncludes: Forest-Only Preset, Two Worlds & Archipelago from Adventure mode and an island preset.\n\nIMPORTANT: Do not ever use the biomes \"Two Lands\" or \"Archipelago\" Without the preset!\n Your world will NOT generate."
 
 author = "ThemInspectors"
-version = "0.1.0-Beta"
+version = "0.1.1-Beta"
 forumthread = ""
 api_version = 10
 
