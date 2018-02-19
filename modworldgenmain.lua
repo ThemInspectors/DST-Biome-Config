@@ -1,4 +1,3 @@
-print("Disable Roads: "..GetModConfigData("disableRoads"))
 ----------------
 --    Init    --
 ----------------
