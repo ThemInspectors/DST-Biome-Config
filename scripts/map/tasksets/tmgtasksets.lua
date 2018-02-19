@@ -29,6 +29,7 @@ AddTaskSet("TMGcreepyforest", {
       "TMG Merm-Blocked Pigs",
       "TMG-Beehive yourself",
       "TMG The dry Forest",
+      "Dig that rock"
     },
     numoptionaltasks = 0,
     optionaltasks = {},
