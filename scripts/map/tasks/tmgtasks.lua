@@ -99,6 +99,30 @@ AddTask("Island Driver 3", {
   background_room="Blank",
   colour={r=1,g=1,b=0.5,a=1}
 })
+
+AddTask("Island Driver 4", {
+  locks=LOCKS.NONE,
+  keys_given=KEYS.NONE,
+  entrance_room = "ForceDisconnectedRoom",
+  room_choices={
+    ["Blank"] = 1,
+  },
+  room_bg=GROUND.GRASS,
+  background_room="Blank",
+  colour={r=1,g=1,b=0.5,a=1}
+})
+
+AddTask("Island Driver 5", {
+  locks=LOCKS.NONE,
+  keys_given=KEYS.NONE,
+  entrance_room = "ForceDisconnectedRoom",
+  room_choices={
+    ["Blank"] = 1,
+  },
+  room_bg=GROUND.GRASS,
+  background_room="Blank",
+  colour={r=1,g=1,b=0.5,a=1}
+})
 --
 --
 --
@@ -107,7 +131,7 @@ AddTask("TMGIslandHop_Rocky", {
 		keys_given=KEYS.MEAT,
 		entrance_room = "ForceDisconnectedRoom",
 		room_choices={
-			["TMGRocky"] = 1+math.random(2), 
+			["TMGRocky"] = 1+math.random(2),
 		},
 		room_bg=GROUND.DIRT,
 		background_room="BGRocky",

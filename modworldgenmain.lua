@@ -1,4 +1,4 @@
-
+print("Disable Roads: "..GetModConfigData("disableRoads"))
 ----------------
 --    Init    --
 ----------------
@@ -31,6 +31,8 @@ local function driveIslands(level)
     table.insert(level.tasks, "Island Driver 1")
     table.insert(level.tasks, "Island Driver 2")
     table.insert(level.tasks, "Island Driver 3")
+    table.insert(level.tasks, "Island Driver 4")
+    table.insert(level.tasks, "Island Driver 5")
   end
 end
 
