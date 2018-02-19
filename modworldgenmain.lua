@@ -23,6 +23,7 @@ Layouts["BargainStartDST"] = StaticLayout.Get("map/static_layouts/bargainstartds
 
 local function driveIslands(level)
   if level.location ~= "forest" then return print("Mod Gen Config: location not in the forest, Aborting!") end --Early return for caves
+  if level.id ~= "INSPECTORMODWORLDGENLEVEL" then return print("Mod Gen Config Level ID is not Gen+, Aborting! Level ID is: "..level.id) end
   if GetModConfigData("islandness") == "often" then
     table.insert(level.tasks, "Island Driver 1")
   elseif GetModConfigData("islandness") == "always" then
