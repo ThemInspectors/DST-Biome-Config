@@ -1,8 +1,8 @@
 name = "Extra Worlgen Config"
-description = ""
+description = "Extra Worlgen Config\n Adds more presets and worldgen configs\nIncludes: Forest-Only Preset, Two Worlds & Archipelago from Adventure mode and an island preset."
 
 author = "ThemInspectors"
-version = "1.0"
+version = "0.1.0-Beta"
 forumthread = ""
 api_version = 10
 
@@ -11,9 +11,10 @@ icon = "modicon.tex"
 all_clients_require_mod = false
 client_only_mod = false
 dst_compatible = true
-server_filter_tags = {}
+server_filter_tags = {"Worldgen+", "Extra Worldgen", "Islands"}
 
 configuration_options = {
+  --[==[
     {
         name = "optbiomescale",
         label = "Optional biomes",
@@ -26,23 +27,23 @@ configuration_options = {
         },
         default = 1,
     },
+    --]==]
     {
       name = "islandness",
       label = "Island frequency",
-      hover = "How frequently will islands spawn?",
+      hover = "How frequently will islands spawn? Requires Gen+",
       options = {
-        {description = "never", data = false, hover = ""}, --I'm not sure what options do in regards to islands, I'll test this later.
-        {description = "rare", data = "rare", hover = ""},
-        {description = "default", data = "default", hover = ""},
-        {description = "often", data = "often", hover = ""},
-        {description = "always", data = "always", hover = ""},
+        {description = "None", data = false, hover = "Islands will NEVER spawn."}, --Roads
+        {description = "Default", data = "rare", hover = "Islands are allowed to spawn, will not try to seperate Biomes"},
+        --{description = "More", data = "often", hover = "Some Islands will spawn."},
+        {description = "Lots", data = "always", hover = "Will try to seperate biomes into islands."},
       },
-      default = false,
+      default = "rare",
     },
     {
       name = "disableRoads",
-      label = "Disable Roads?",
-      hover = "Stop roads from spawning?",
+      label = "Disable Roads",
+      hover = "Stop roads from spawning? Requires Gen+",
       options = {
         {description = "Enabled", data = false, hover = "Roads should spawn."},
         {description = "Disabled", data = "never", hover = "Roads should not spawn."},
