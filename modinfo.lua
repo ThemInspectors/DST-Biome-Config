@@ -1,11 +1,9 @@
 name = "Extra Worldgen Config"
-description = "Extra Worlgen Config\nAdds more presets and worldgen configs\nIncludes: Forest-Only Preset, Two Worlds & Archipelago from Adventure mode and an island preset.\n\nIMPORTANT: Do not ever use the biomes \"Two Lands\" or \"Archipelago\" Without the preset!\n Your world will NOT generate."
-
 author = "ThemInspectors"
-version = "0.1.2-Beta"
+version = "0.2.0-DEV"
+description = "Extra Worlgen Config\nAdds more presets and worldgen configs\nIncludes: Forest-Only Preset, Two Worlds & Archipelago from Adventure mode and an island preset.\n\nIMPORTANT: Do not ever use the biomes \"Two Lands\" or \"Archipelago\" Without the preset!\n Your world will NOT generate.\nV-"..version..""
 forumthread = ""
 api_version = 10
-
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 all_clients_require_mod = false
@@ -50,4 +48,27 @@ configuration_options = {
       },
       default = false,
     },
+    {
+      name = "bothBerries",
+      label = "Both Berries",
+      hover = "Add Both Berry types",
+      options = {
+        {
+          {description = "Enabled", data = true, hover = "Both types of berries will spawn."},
+          {description = "Disabled", data = false, hover = "Only 1 kind of berry will spawn."},
+        },
+      },
+      default = false,
+    },
+    name = "layoutmode",
+    label = "Layout Mode",
+    hover = "Change the layout mode, Requires Gen+",
+    options = {
+      {
+        {description = "Default", data = "LinkNodesByKeys", hover = "Default worldgen layout"},
+        {description = "Mode 2", data = "RestrictNodesByKey", hover = "Different layout of the world."},
+      },
+    },
+    default = false,
+  },
 }

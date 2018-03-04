@@ -35,6 +35,13 @@ local function driveIslands(level)
   end
 end
 
+local function debugPrefswaps(level)
+
+  local TMGprefswaps = PrefabSwaps.GetBasePrefabSwaps()
+  print("Looking at prefab swaps! "..TMGprefswaps)
+
+end
+
 --These functions aren't working :/
 --[=====[
 if GetModConfigData("islandness") then -- This function inserts island-allowing overrides into the level.
@@ -68,3 +75,4 @@ end
 --AddLevelPreInitAny(addIslands)
 --AddLevelPreInitAny(removeRoads)
 AddLevelPreInitAny(driveIslands)
+AddLevelPreInitAny(debugPrefswaps)

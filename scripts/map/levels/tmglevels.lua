@@ -111,7 +111,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
       keep_disconnected_tiles = GetModConfigData("islandness"),
       islands = GetModConfigData("islandness") or "never", --Using "or never" to let it not crash when islandness is set to false.
       roads = GetModConfigData("disableRoads") or nil,
-      --layout_mode = "RestrictNodesByKey",
+      layout_mode = GetModConfigData("layoutmode"),
     },
     ordered_story_setpieces = {
         "Sculptures_1",
