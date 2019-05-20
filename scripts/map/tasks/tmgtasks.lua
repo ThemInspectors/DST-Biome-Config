@@ -53,12 +53,29 @@ AddTask("TMG The dry Forest", {
     ["DryAntlion"] = 1,
     ["IdleOasis"] = 1,
     ["DragonflyArena"] = 1,
+    ["TMGRocky"] = 1,
 --    ["TMG Rocky Forest"] = 1,
   },
   room_bg=GROUND.GRASS,
   background_room="Mod_BurntClearing",
   colour={r=1,g=1,b=0.5,a=1}
 })
+
+------------------------------
+--  Edited Adventure Tasks  --
+------------------------------
+
+AddTask("TMGIslandHop_Rocky", {
+		locks=LOCKS.MEAT,
+		keys_given=KEYS.MEAT,
+		entrance_room = "ForceDisconnectedRoom",
+		room_choices={
+			["TMGRocky"] = 1+math.random(2),
+		},
+		room_bg=GROUND.DIRT,
+		background_room="BGRocky",
+		colour={r=math.random(),g=math.random(),b=math.random(),a=math.random()},
+	})
 
 --------------------------------
 --    Island Driving Tasks    --
@@ -123,17 +140,3 @@ AddTask("Island Driver 5", {
   background_room="Blank",
   colour={r=1,g=1,b=0.5,a=1}
 })
---
---
---
-AddTask("TMGIslandHop_Rocky", {
-		locks=LOCKS.MEAT,
-		keys_given=KEYS.MEAT,
-		entrance_room = "ForceDisconnectedRoom",
-		room_choices={
-			["TMGRocky"] = 1+math.random(2),
-		},
-		room_bg=GROUND.DIRT,
-		background_room="BGRocky",
-		colour={r=math.random(),g=math.random(),b=math.random(),a=math.random()},
-	})

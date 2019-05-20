@@ -224,3 +224,40 @@ AddRoom("Mod_BGGrassBurnt", {
           					                },
           					            }
           					})
+
+                    AddRoom("TMGBasicClearing", {
+                    					colour={r=.8,g=0.5,b=.6,a=.50},
+                    					value = GROUND.FOREST,
+                    					tags = {"ExitPiece", "Chester_Eyebone", "StagehandGarden"},
+                    					contents =  {
+                    									countprefabs = {
+                        										spawnpoint_multiplayer = 1,
+                        									},
+                    									countstaticlayouts={
+                                        ["MushroomRingLarge"]=
+                                          function()
+                      											if math.random(0,1000) > 985 then
+        																				return 1
+        																		end
+                      											return 0
+                      										end,
+                                          ["SimpleBase"] = 1,
+                                      },
+                    					                distributepercent = .1,
+                    					                distributeprefabs=
+                    					                {
+                    										pighouse=0.015,
+                                                            fireflies = 1,
+                    					                    evergreen = 1.5,
+                    					                    grass = .1,
+                    					                    sapling=.8,
+                    										twiggytree = 0.8,
+                    										ground_twigs = 0.06,
+                    					                    berrybush=.1,
+                    					                    berrybush_juicy = 0.05,
+                    					                    beehive=.05,
+                    					                    red_mushroom = .01,
+                    					                    green_mushroom = .02,
+                    					                },
+                    					            }
+                    					})
